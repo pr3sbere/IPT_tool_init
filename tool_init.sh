@@ -97,7 +97,25 @@ cat << 'EOF' > README.md
 - **httprobe**: go install github.com/tomnomnom/httprobe@latest
 - **EyeWitness**: Use setup.sh inside the directory to install virtual env and dependencies
 
-## Updates
+## Installed uv tools:
+impacket
+certipy-ad
+bloodhound-ce-python
+mitm6
+pywerview
+httpie
+ssh-audit
+kerbrute
+bloodyAD
+ldapdomaindump
+pywhisker
+Responder
+wspcoerce
+AutoRecon
+enum4linux-ng
+NetExec
+
+## uv Updates
 - Update all Python tools: `uv tool upgrade --all`
 EOF
 
