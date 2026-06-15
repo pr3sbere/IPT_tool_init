@@ -119,7 +119,11 @@ NetExec
 - Update all Python tools: `uv tool upgrade --all`
 EOF
 
-# 6. Final Notification and Reload Instructions
+# 6. Configure uv shell environment
+echo -e "${BLUE}[*] Configuring uv shell environment...${NC}"
+uv tool update-shell
+
+# 7. Final Notification and Reload Instructions
 echo -e "\n${GREEN}[+] Setup Complete!${NC}"
 echo -e "${YELLOW}-----------------------------------------------------------${NC}"
 echo -e "${YELLOW}IMPORTANT: You must reload your shell to use the new tools.${NC}"
