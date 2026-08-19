@@ -53,8 +53,8 @@ for repo in "${GIT_PY_TOOLS[@]}"; do
     uv tool install "git+$repo" --force
 done
 
-# 4. Setup Git Tools Directory
-GIT_DIR="$HOME/git_tools"
+# 4. Setup Git Tools Directory (Now in Current Directory)
+GIT_DIR="$(pwd)/git_tools"
 mkdir -p "$GIT_DIR"
 cd "$GIT_DIR" || exit
 
@@ -124,9 +124,15 @@ EOF
 # 6. Configure uv shell environment
 echo -e "${BLUE}[*] Configuring uv shell environment...${NC}"
 uv tool update-shell
+
+# 7. Fix sudo path for uv tools
+echo -e "${BLUE}[*] Updating sudo secure_path for uv tools...${NC}"
+sudo bash -c 'echo "Defaults secure_path=\"/home/oss/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin\"" > /etc/sudoers.d/uv'
+sudo chmod 0440 /etc/sudoers.d/uv
+
 echo -e "${YELLOW}[*] Run the following command if you encounter issues loading the tools: uv tool update-shell${NC}"
 
-# 7. Final Notification and Reload Instructions
+# 8. Final Notification and Reload Instructions
 echo -e "\n${GREEN}[+] Setup Complete!${NC}"
 echo -e "${YELLOW}-----------------------------------------------------------${NC}"
 echo -e "${YELLOW}IMPORTANT: You must reload your shell to use the new tools.${NC}"
