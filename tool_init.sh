@@ -11,7 +11,7 @@ echo -e "${BLUE}[*] Starting Setup for Ubuntu/Kali...${NC}"
 # 1. Install System Dependencies
 echo -e "${BLUE}[*] Updating system and installing base dependencies...${NC}"
 sudo apt-get update
-sudo apt-get install -y git python3-pip build-essential libssl-dev libffi-dev libbz2-dev libreadline-dev libsqlite3-dev  gcc clang libclang-dev libgssapi-krb5-2 libkrb5-dev libsasl2-modules-gssapi-mit curl
+sudo apt-get install -y git rustc cargo python3-pip python3-dev python3-full pipx build-essential libssl-dev libffi-dev libbz2-dev libreadline-dev libsqlite3-dev gcc clang libclang-dev libgssapi-krb5-2 libkrb5-dev libsasl2-modules-gssapi-mit curl
 
 # 2. Install uv if not present
 if ! command -v uv &> /dev/null; then
@@ -26,7 +26,12 @@ fi
 # Ensure paths are set for the current script execution
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
-# 3. Install Python tools via uv
+# 3. Install NetExec via pipx
+echo -e "${BLUE}[*] Installing NetExec via pipx...${NC}"
+pipx ensurepath
+pipx install git+https://github.com/Pennyw0rth/NetExec --force
+
+# 4. Install Python tools via uv
 echo -e "${BLUE}[*] Installing Python tools via uv...${NC}"
 
 PYPI_TOOLS=(
@@ -40,7 +45,6 @@ GIT_PY_TOOLS=(
     "https://github.com/RedTeamPentesting/wspcoerce.git"
     "https://github.com/AutoRecon/AutoRecon.git"
     "https://github.com/cddmp/enum4linux-ng.git"
-    "https://github.com/Pennyw0rth/NetExec.git"
 )
 
 for tool in "${PYPI_TOOLS[@]}"; do
@@ -53,7 +57,7 @@ for repo in "${GIT_PY_TOOLS[@]}"; do
     uv tool install "git+$repo" --force
 done
 
-# 4. Setup Git Tools Directory (Now in Current Directory)
+# 5. Setup Git Tools Directory (Current Directory)
 GIT_DIR="$(pwd)/git_tools"
 mkdir -p "$GIT_DIR"
 cd "$GIT_DIR" || exit
@@ -86,7 +90,7 @@ done
 
 wait
 
-# 5. Create README.md
+# 6. Create README.md
 echo -e "${BLUE}[*] Creating README.md...${NC}"
 cat << 'EOF' > README.md
 # Tooling Notes
@@ -94,6 +98,7 @@ cat << 'EOF' > README.md
 ## General Installation Info
 - **aquatone**: Installed via release. GitHub: https://github.com/michenriksen/aquatone.git
 - **witnessme**: Uses pipx 
+- **NetExec**: Installed via pipx
 - **Pretender**: Installed using (go): cd pretender/ then 'go build'
 - **rusthound**: Installed using (cargo): cargo install rusthound-ce (check if exec runs from full path, then add PATH to ~/.bashrc)
 - **httprobe**: go install github.com/tomnomnom/httprobe@latest
@@ -115,24 +120,23 @@ Responder
 wspcoerce
 AutoRecon
 enum4linux-ng
-NetExec
 
 ## uv Updates
 - Update all Python tools: `uv tool upgrade --all`
 EOF
 
-# 6. Configure uv shell environment
+# 7. Configure uv shell environment
 echo -e "${BLUE}[*] Configuring uv shell environment...${NC}"
 uv tool update-shell
 
-# 7. Fix sudo path for uv tools
+# 8. Fix sudo path for uv tools
 echo -e "${BLUE}[*] Updating sudo secure_path for uv tools...${NC}"
 sudo bash -c 'echo "Defaults secure_path=\"/home/oss/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin\"" > /etc/sudoers.d/uv'
 sudo chmod 0440 /etc/sudoers.d/uv
 
 echo -e "${YELLOW}[*] Run the following command if you encounter issues loading the tools: uv tool update-shell${NC}"
 
-# 8. Final Notification and Reload Instructions
+# 9. Final Notification and Reload Instructions
 echo -e "\n${GREEN}[+] Setup Complete!${NC}"
 echo -e "${YELLOW}-----------------------------------------------------------${NC}"
 echo -e "${YELLOW}IMPORTANT: You must reload your shell to use the new tools.${NC}"
