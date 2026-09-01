@@ -45,6 +45,7 @@ GIT_PY_TOOLS=(
     "https://github.com/RedTeamPentesting/wspcoerce.git"
     "https://github.com/AutoRecon/AutoRecon.git"
     "https://github.com/cddmp/enum4linux-ng.git"
+    "https://github.com/rub-softsec/onelogon.git"
 )
 
 for tool in "${PYPI_TOOLS[@]}"; do
