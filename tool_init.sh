@@ -117,6 +117,7 @@ kerbrute
 bloodyAD
 ldapdomaindump
 pywhisker
+onelogon
 Responder
 wspcoerce
 AutoRecon
