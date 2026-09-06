@@ -37,7 +37,7 @@ echo -e "${BLUE}[*] Installing Python tools via uv...${NC}"
 PYPI_TOOLS=(
     "impacket" "certipy-ad" "bloodhound-ce" "mitm6" 
     "pywerview" "httpie" "ssh-audit" "kerbrute" 
-    "bloodyAD" "ldapdomaindump" "pywhisker"
+    "bloodyAD" "ldapdomaindump" "pywhisker" "coercer"
 )
 
 GIT_PY_TOOLS=(
