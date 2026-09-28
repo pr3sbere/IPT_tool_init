@@ -1,5 +1,6 @@
 Initial Tool setup for internal assessments
 ===========================================
+DON'T USE SUDO!!
 
 Installs via UV or clone Git repos of:
 
